@@ -5,23 +5,48 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
+import { getAIRecommendations } from "@/utils/aiRecommendations";
 
 export const Questionnaire = () => {
   const { toast } = useToast();
   const [step, setStep] = useState(1);
+  const [apiKey, setApiKey] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [recommendations, setRecommendations] = useState("");
   const [formData, setFormData] = useState({
     businessType: "",
     challenges: "",
-    currentProcesses: "",
     goals: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Submission Received",
-      description: "We'll analyze your needs and get back to you shortly!",
-    });
+    setLoading(true);
+
+    try {
+      // Store API key in localStorage
+      if (apiKey) {
+        localStorage.setItem('PERPLEXITY_API_KEY', apiKey);
+      }
+
+      // Get AI recommendations
+      const aiRecommendations = await getAIRecommendations(formData);
+      setRecommendations(aiRecommendations);
+      setStep(4);
+
+      toast({
+        title: "Analysis Complete",
+        description: "We've analyzed your needs and generated AI recommendations!",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "There was an error generating recommendations. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -106,6 +131,19 @@ export const Questionnaire = () => {
                     className="mt-1"
                   />
                 </div>
+                <div>
+                  <Label className="text-white">Perplexity API Key</Label>
+                  <Input
+                    type="password"
+                    placeholder="Enter your Perplexity API key"
+                    value={apiKey}
+                    onChange={(e) => setApiKey(e.target.value)}
+                    className="mt-1"
+                  />
+                  <p className="text-xs text-gray-400 mt-1">
+                    Required for AI recommendations. Your key will be stored locally.
+                  </p>
+                </div>
                 <div className="flex gap-4">
                   <Button
                     type="button"
@@ -118,10 +156,39 @@ export const Questionnaire = () => {
                   <Button
                     type="submit"
                     className="w-full bg-solaris-primary hover:bg-solaris-accent"
+                    disabled={loading || !apiKey}
                   >
-                    Submit
+                    {loading ? "Analyzing..." : "Get Recommendations"}
                   </Button>
                 </div>
+              </div>
+            )}
+
+            {step === 4 && recommendations && (
+              <div className="space-y-4">
+                <div>
+                  <h3 className="text-xl font-semibold text-white mb-4">
+                    Your AI Solution Recommendations
+                  </h3>
+                  <div className="bg-white/5 p-4 rounded-lg text-white whitespace-pre-line">
+                    {recommendations}
+                  </div>
+                </div>
+                <Button
+                  type="button"
+                  onClick={() => {
+                    setStep(1);
+                    setFormData({
+                      businessType: "",
+                      challenges: "",
+                      goals: "",
+                    });
+                    setRecommendations("");
+                  }}
+                  className="w-full bg-solaris-primary hover:bg-solaris-accent"
+                >
+                  Start New Analysis
+                </Button>
               </div>
             )}
           </form>
