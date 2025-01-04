@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { getAIRecommendations } from "@/utils/aiRecommendations";
 
 export const Questionnaire = () => {
@@ -39,11 +39,22 @@ export const Questionnaire = () => {
         description: "We've analyzed your needs and generated AI recommendations!",
       });
     } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'There was an error generating recommendations. Please try again.';
+      
       toast({
         title: "Error",
-        description: "There was an error generating recommendations. Please try again.",
+        description: errorMessage,
         variant: "destructive",
       });
+      
+      // If it's an insufficient balance error, provide additional guidance
+      if (errorMessage.includes('insufficient balance')) {
+        toast({
+          title: "Deepseek API Key Issue",
+          description: "Please ensure your Deepseek account is properly funded. You can check your balance on the Deepseek dashboard.",
+          variant: "destructive",
+        });
+      }
     } finally {
       setLoading(false);
     }

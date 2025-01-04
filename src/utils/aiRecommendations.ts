@@ -36,10 +36,18 @@ export const getAIRecommendations = async (data: QuestionnaireData) => {
       }),
     });
 
+    if (!response.ok) {
+      const errorData = await response.json();
+      if (response.status === 402) {
+        throw new Error('Your Deepseek API key has insufficient balance. Please ensure your account is properly funded.');
+      }
+      throw new Error(errorData.error?.message || 'Failed to get AI recommendations');
+    }
+
     const result = await response.json();
     return result.choices[0].message.content;
   } catch (error) {
     console.error('Error getting AI recommendations:', error);
-    return "Unable to generate recommendations at this time. Please try again later.";
+    throw error; // Re-throw to handle in the component
   }
 };
