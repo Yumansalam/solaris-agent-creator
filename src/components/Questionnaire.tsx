@@ -26,7 +26,7 @@ export const Questionnaire = () => {
     try {
       // Store API key in localStorage
       if (apiKey) {
-        localStorage.setItem('PERPLEXITY_API_KEY', apiKey);
+        localStorage.setItem('DEEPSEEK_API_KEY', apiKey);
       }
 
       // Get AI recommendations
@@ -132,10 +132,10 @@ export const Questionnaire = () => {
                   />
                 </div>
                 <div>
-                  <Label className="text-white">Perplexity API Key</Label>
+                  <Label className="text-white">Deepseek API Key</Label>
                   <Input
                     type="password"
-                    placeholder="Enter your Perplexity API key"
+                    placeholder="Enter your Deepseek API key"
                     value={apiKey}
                     onChange={(e) => setApiKey(e.target.value)}
                     className="mt-1"
