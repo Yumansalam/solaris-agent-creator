@@ -5,9 +5,9 @@ export const Footer = () => {
     <footer className="bg-solaris-dark/95 text-gray-300 py-12 px-4 md:px-8">
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
         <div>
-          <h3 className="text-white font-semibold text-lg mb-4">About Solaris AI</h3>
+          <h3 className="text-white font-semibold text-lg mb-4">About Cubix Intelligence</h3>
           <p className="text-sm">
-            Pioneering the future of AI solutions with cutting-edge technology and innovative approaches to business automation.
+            Pioneering the future of AI solutions with cutting-edge technology and innovative approaches to business automation through Cubix Intelligence.
           </p>
         </div>
         
