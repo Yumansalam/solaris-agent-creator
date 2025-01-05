@@ -1,7 +1,10 @@
 import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 export const Pricing = () => {
+  const navigate = useNavigate();
+
   return (
     <div id="pricing" className="py-20 px-4 md:px-8 bg-gradient-to-b from-solaris-dark/90 to-solaris-dark">
       <div className="max-w-6xl mx-auto">
@@ -36,7 +39,10 @@ export const Pricing = () => {
                 Email Support
               </li>
             </ul>
-            <Button className="w-full bg-solaris-primary hover:bg-solaris-primary/90">
+            <Button 
+              onClick={() => navigate('/register?plan=starter')}
+              className="w-full bg-solaris-primary hover:bg-solaris-primary/90"
+            >
               Get Started
             </Button>
           </div>
@@ -71,7 +77,10 @@ export const Pricing = () => {
                 Analytics Dashboard
               </li>
             </ul>
-            <Button className="w-full bg-solaris-primary hover:bg-solaris-primary/90">
+            <Button 
+              onClick={() => navigate('/register?plan=professional')}
+              className="w-full bg-solaris-primary hover:bg-solaris-primary/90"
+            >
               Get Started
             </Button>
           </div>
@@ -100,7 +109,10 @@ export const Pricing = () => {
                 Custom Integration
               </li>
             </ul>
-            <Button className="w-full bg-solaris-primary hover:bg-solaris-primary/90">
+            <Button 
+              onClick={() => navigate('/register?plan=enterprise')}
+              className="w-full bg-solaris-primary hover:bg-solaris-primary/90"
+            >
               Contact Sales
             </Button>
           </div>

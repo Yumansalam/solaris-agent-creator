@@ -21,7 +21,7 @@ export const Navigation = () => {
               onClick={() => navigate('/')} 
               className="text-2xl font-bold text-white cursor-pointer"
             >
-              Solaris AI
+              Cubix Intelligence
             </span>
           </div>
           <div className="hidden md:flex items-center space-x-8">
@@ -45,12 +45,12 @@ export const Navigation = () => {
             </button>
             <Button 
               onClick={() => navigate('/demo')}
-              variant="outline" 
-              className="border-solaris-primary text-white hover:bg-solaris-primary"
+              className="bg-solaris-primary text-white hover:bg-solaris-primary/90"
             >
               View Demo
             </Button>
             <Button 
+              onClick={() => navigate('/signin')}
               className="bg-solaris-primary text-white hover:bg-solaris-primary/90"
             >
               <LogIn className="mr-2 h-4 w-4" />
